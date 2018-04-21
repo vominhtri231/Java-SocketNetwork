@@ -4,6 +4,7 @@ import java.net.*;
 import java.util.Scanner;
 
 public class UDPClient {
+	@SuppressWarnings("resource")
 	public static void main(String[] args) {
 		try {
 			
