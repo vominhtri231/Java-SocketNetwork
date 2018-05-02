@@ -1,62 +1,30 @@
+package finalTest.Ex1;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Hashtable;
 
 
 
 
-public class ChildServer {
+public class Server {
 	ServerSocket server;
-	int motherPort;
-	String motherAddress;
 	Date time;
 	ClientListener listener;
-	MotherSender motherSender;
+
 	
-	public ChildServer(String address,int motherPort) throws IOException {
-		this.motherPort=motherPort;
-		this.motherAddress=address;
-		server=new ServerSocket(0);
+	public Server(int port) throws IOException {
+		server=new ServerSocket(port);
 		time=new Date();
-		motherSender=new MotherSender();
-		motherSender.start();
 		listener=new ClientListener();
 		listener.start();	
 	}
 	
-	class MotherSender extends Thread{		
-		Socket soc;
-		DataOutputStream dos;
-		boolean isRun;
-		public MotherSender() throws UnknownHostException, IOException{
-			isRun=true;
-			soc=new Socket(motherAddress,motherPort);
-			dos=new DataOutputStream(soc.getOutputStream());
-			dos.writeUTF("???????");
-		}
-		public void run() {
-			try {
-				while(isRun) {
-					dos.writeInt(server.getLocalPort());
-					Thread.sleep(1000);
-				}
-			} catch (InterruptedException | IOException e) {
-				e.printStackTrace();
-			}
-			
-		}
-		
-		public void stopSending() throws IOException {
-			isRun=false;
-			dos.close();
-			soc.close();
-		}
-	}
+	
 	
 	class ClientListener extends Thread{
 		boolean isRun;
@@ -153,7 +121,6 @@ public class ChildServer {
 		
 		private void end() throws IOException {
 			listener.stopListening();
-			motherSender.stopSending();
 			dos.writeUTF("end");
 		}
 		
@@ -161,6 +128,14 @@ public class ChildServer {
 			dos.close();
 			dis.close();
 			conn.close();
+		}
+	}
+	
+	public static void main(String[] args) {
+		try {
+			new Server(Integer.parseInt(args[0]));
+		} catch (NumberFormatException | IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
