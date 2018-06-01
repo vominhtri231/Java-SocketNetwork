@@ -1,11 +1,7 @@
-/MotherServer$ListenerForChild$1.class
-/MotherServer$1.class
-/MotherServer$ClientListener.class
-/MotherServer$ChildListener.class
-/MotherServer$ChildListener$1.class
-/ChildServer$MotherSender.class
-/ChildServer$ClientListener.class
-/ChildServer$MotherServerSender.class
-/MotherServer$ChildListener$2.class
+/Calculate/
+/caro/
+/dayTime/
 /finalTest/
 /realFinalTest/
+/sendImageTest/
+/udpTest/
